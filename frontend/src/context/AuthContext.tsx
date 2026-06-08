@@ -38,8 +38,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       const response = await api.login(email, password)
       if (response.success && response.data) {
-        const userData = response.data.user || response.data
-        const token = response.data.token || 'mock-token'
+        const userData = (response.data as any).user || response.data
+        const token = (response.data as any).token || 'mock-token'
         
         setUser(userData)
         localStorage.setItem('user', JSON.stringify(userData))
@@ -59,8 +59,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       const response = await api.register(name, email, password)
       if (response.success && response.data) {
-        const userData = response.data.user || response.data
-        const token = response.data.token || 'mock-token'
+        const userData = (response.data as any).user || response.data
+        const token = (response.data as any).token || 'mock-token'
         
         setUser(userData)
         localStorage.setItem('user', JSON.stringify(userData))

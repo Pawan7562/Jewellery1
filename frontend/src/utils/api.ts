@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
+const API_BASE_URL = (import.meta as any).env.VITE_API_URL || 'http://localhost:5000/api'
 
 interface ApiResponse<T> {
   success: boolean
@@ -21,11 +21,14 @@ class ApiClient {
     const token = localStorage.getItem('token')
     const headers: HeadersInit = {
       'Content-Type': 'application/json',
-      ...options.headers,
     }
 
     if (token) {
-      headers['Authorization'] = `Bearer ${token}`
+      (headers as Record<string, string>)['Authorization'] = `Bearer ${token}`
+    }
+
+    if (options.headers) {
+      Object.assign(headers, options.headers)
     }
 
     try {

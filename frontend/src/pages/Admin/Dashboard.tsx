@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { Package, Users, ShoppingCart, TrendingUp, Plus } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
@@ -6,7 +5,6 @@ import { useAuth } from '../../context/AuthContext'
 const Dashboard = () => {
   const navigate = useNavigate()
   const { user } = useAuth()
-  const [activeTab, setActiveTab] = useState('overview')
 
   const stats = [
     { label: 'Total Sales', value: '$45,230', icon: TrendingUp, change: '+12%' },

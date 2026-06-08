@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 
 const Cart = () => {
-  const { cartItems, removeFromCart, updateQuantity, getCartTotal, clearCart } = useCart()
+  const { cartItems, removeFromCart, updateQuantity, getCartTotal } = useCart()
 
   const subtotal = getCartTotal()
   const shipping = 0
