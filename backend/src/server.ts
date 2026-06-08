@@ -44,6 +44,37 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Elliot & Mater Jewelry API is running' });
 });
 
+// Database health check
+app.get('/api/db-health', async (req, res) => {
+  if (!pool) {
+    return res.status(500).json({ 
+      status: 'error', 
+      message: 'Database connection not established',
+      database_connected: false 
+    });
+  }
+
+  try {
+    const result = await pool.query('SELECT NOW()');
+    const userCount = await pool.query('SELECT COUNT(*) FROM users');
+    
+    res.json({ 
+      status: 'ok', 
+      message: 'Database connection successful',
+      database_connected: true,
+      server_time: result.rows[0].now,
+      user_count: parseInt(userCount.rows[0].count)
+    });
+  } catch (error: any) {
+    res.status(500).json({ 
+      status: 'error', 
+      message: 'Database connection failed',
+      database_connected: false,
+      error: error.message 
+    });
+  }
+});
+
 // Import routes
 import authRoutes from './routes/auth';
 import productRoutes from './routes/products';
