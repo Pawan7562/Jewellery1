@@ -16,10 +16,13 @@ router.post('/register', [
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      console.error('Validation errors:', errors.array());
+      return res.status(400).json({ error: 'Validation failed', details: errors.array() });
     }
 
     const { email, password, firstName, lastName } = req.body;
+
+    console.log('Registration attempt for email:', email);
 
     // Check if user exists
     const userExists = await pool.query(
@@ -28,11 +31,13 @@ router.post('/register', [
     );
 
     if (userExists.rows.length > 0) {
-      return res.status(400).json({ error: 'User already exists' });
+      console.log('User already exists:', email);
+      return res.status(400).json({ error: 'User already exists with this email' });
     }
 
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
+    console.log('Password hashed successfully');
 
     // Create user
     const result = await pool.query(
@@ -41,6 +46,7 @@ router.post('/register', [
     );
 
     const user = result.rows[0];
+    console.log('User created successfully:', user.id);
 
     // Generate token
     // @ts-ignore
@@ -51,6 +57,7 @@ router.post('/register', [
     );
 
     res.status(201).json({
+      success: true,
       token,
       user: {
         id: user.id,
@@ -62,7 +69,7 @@ router.post('/register', [
     });
   } catch (error) {
     console.error('Register error:', error);
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({ error: 'Server error during registration', details: error instanceof Error ? error.message : 'Unknown error' });
   }
 });
 
