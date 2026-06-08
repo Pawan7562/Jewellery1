@@ -5,7 +5,7 @@
 -- Email: customer@test.com
 -- Password: customer123
 INSERT INTO users (email, password, first_name, last_name, role) VALUES
-('customer@test.com', '$2a$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 'Test', 'Customer', 'customer')
+('customer@test.com', '$2a$10$DRcHCFCMDPZ3/qHoc.3VPe1T705DP0Sh29.aYbNEUoN9yb87hgPWC', 'Test', 'Customer', 'customer')
 ON CONFLICT (email) DO UPDATE SET
   password = EXCLUDED.password,
   first_name = EXCLUDED.first_name,
@@ -16,7 +16,7 @@ ON CONFLICT (email) DO UPDATE SET
 -- Email: admin@test.com
 -- Password: admin123
 INSERT INTO users (email, password, first_name, last_name, role) VALUES
-('admin@test.com', '$2a$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', 'Admin', 'User', 'admin')
+('admin@test.com', '$2a$10$MmNrVAuNLH90AcC2PAF8C..Ez43EPSvF9doecYkeDP86J4gOwOXIq', 'Admin', 'User', 'admin')
 ON CONFLICT (email) DO UPDATE SET
   password = EXCLUDED.password,
   first_name = EXCLUDED.first_name,
