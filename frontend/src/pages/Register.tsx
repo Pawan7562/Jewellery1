@@ -15,7 +15,17 @@ const Register = () => {
     setError('')
     
     try {
-      await register(name, email, password)
+      // Split name into first and last name
+      const nameParts = name.trim().split(' ')
+      const firstName = nameParts[0] || ''
+      const lastName = nameParts.slice(1).join(' ') || ''
+      
+      if (!firstName || !lastName) {
+        setError('Please enter both first and last name')
+        return
+      }
+      
+      await register(firstName, lastName, email, password)
       navigate('/')
     } catch (err) {
       setError('Registration failed. Please try again.')

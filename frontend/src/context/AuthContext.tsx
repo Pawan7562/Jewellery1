@@ -13,7 +13,7 @@ interface AuthContextType {
   isAuthenticated: boolean
   isLoading: boolean
   login: (email: string, password: string) => Promise<void>
-  register: (name: string, email: string, password: string) => Promise<void>
+  register: (firstName: string, lastName: string, email: string, password: string) => Promise<void>
   logout: () => void
 }
 
@@ -54,10 +54,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }
 
-  const register = async (name: string, email: string, password: string) => {
+  const register = async (firstName: string, lastName: string, email: string, password: string) => {
     setIsLoading(true)
     try {
-      const response = await api.register(name, email, password)
+      const response = await api.register(firstName, lastName, email, password)
       if (response.success && response.data) {
         const userData = (response.data as any).user || response.data
         const token = (response.data as any).token || 'mock-token'
