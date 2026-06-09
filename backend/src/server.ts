@@ -75,6 +75,20 @@ app.get('/api/db-health', async (req, res) => {
   }
 });
 
+// Debug endpoint to test user data
+app.get('/api/debug/users', async (req, res) => {
+  if (!pool) {
+    return res.status(500).json({ error: 'Database not connected' });
+  }
+
+  try {
+    const result = await pool.query('SELECT id, email, first_name, last_name, role, LEFT(password, 20) as password_preview FROM users LIMIT 5');
+    res.json({ users: result.rows });
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Import routes
 import authRoutes from './routes/auth';
 import productRoutes from './routes/products';
